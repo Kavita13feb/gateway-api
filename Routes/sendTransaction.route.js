@@ -37,8 +37,12 @@ sendTransactionRouter.post("/", async (req, res) => {
       id: 1,
     })
     .then((response) => {
-      
-      res.status(200).send({"Transaction hash": response.data.result});
+      console.log(response)
+      if(response.data.error){
+        res.status(400).send(response.data.error)
+      }else{
+        res.status(200).send({"Transaction hash": response.data.result});
+        }
     })
     .catch((er) => {
       console.log(er);

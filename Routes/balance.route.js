@@ -7,7 +7,6 @@ balanceRouter.post("/",async(req,res)=>{
     // console.log(req.body)
 
     try {
-        // const network="https://bsc-dataseed.binance.org/"
 const network="https://data-seed-prebsc-1-s1.binance.org:8545/"
         const web3 = new Web3(network);
         const accountBalance = await web3.eth.getBalance(walletAddress);

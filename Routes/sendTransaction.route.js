@@ -3,16 +3,26 @@ const { default: Web3 } = require("web3");
 const sendTransactionRouter = express.Router();
 
 const axios = require("axios");
+const { getAccountBalance } = require("../Middlewares/getBalance");
+const { getGasPrice } = require("../Middlewares/gasPrice");
+const { getGasAmount } = require("../Middlewares/gasAmount");
+
+
+
+sendTransactionRouter.use(getAccountBalance)
+sendTransactionRouter.use(getGasPrice)
+sendTransactionRouter.use(getGasAmount)
 
 sendTransactionRouter.post("/", async (req, res) => {
   // const network="https://bsc-dataseed.binance.org/"
   const network = "https://data-seed-prebsc-1-s1.binance.org:8545/";
-
+// console.log(req.body)
   const web3 = new Web3(network);
   const senderPrivateKey = req.body.senderPrivateKey;
   const senderAddress = req.body.senderAddress;
   const recipientAddress = req.body.recipientAddress;
   const amountToTransfer = req.body.amountToTransfer;
+  
 
   // const sourcePrivateKey = "0xb2c987d6962bc3a947bd397ce4fdbd2c6470880534a11384d274dd4b33e8ec1c";
   const txObject = {
@@ -25,9 +35,11 @@ sendTransactionRouter.post("/", async (req, res) => {
     chainId: 97, // 56 for Binance Smart Chain mainnet, 97 for testnet (adjust accordingly)
   };
 
+  console.log(txObject)
   const senderAccount = web3.eth.accounts.privateKeyToAccount(senderPrivateKey);
 
   const signedTx = await senderAccount.signTransaction(txObject);
+
 
   await axios
     .post(network, {
@@ -37,7 +49,7 @@ sendTransactionRouter.post("/", async (req, res) => {
       id: 1,
     })
     .then((response) => {
-      console.log(response)
+      // console.log(response)
       if(response.data.error){
         res.status(400).send(response.data.error)
       }else{

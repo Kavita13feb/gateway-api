@@ -1,13 +1,13 @@
 const express =require('express');
 const { default: Web3 } = require('web3');
-const gasPriceRouter =express.Router()
+// const gasPriceRouter =express.Router()
 
 
-gasPriceRouter.post("/",async(req,res)=>{
-    console.log(req.body)
-    const senderAddress =req.body.senderAddress
-    const recipientAddress =req.body.recipientAddress
-    const amountToTransfer =req.body.amountToTransfer
+const getGasPrice=async(req,res,next)=>{
+    // console.log(req.body)
+    const senderAddress = req.body.senderAddress 
+    const recipientAddress =req.body.recipientAddress 
+    const amountToTransfer =req.body.amountToTransfer 
 
     // const network="https://bsc-dataseed.binance.org/"
     const network = "https://data-seed-prebsc-1-s1.binance.org:8545/";
@@ -20,8 +20,7 @@ gasPriceRouter.post("/",async(req,res)=>{
             from: senderAddress,
             to: recipientAddress,
             value: web3.utils.toWei(amountToTransfer.toString(), "ether"), // Convert to wei
-            
-        });
+            });
 
         // Getting the current gas price from the network
         const gasPriceWei = await web3.eth.getGasPrice();
@@ -37,8 +36,8 @@ gasPriceRouter.post("/",async(req,res)=>{
         );
 
         console.log("Total Gas Fee in BNB:", totalGasFeeBNB);
-        res.status(200).send(totalGasFeeBNB)
-
+        req.body.totalGasFeeBNB=totalGasFeeBNB
+           next()
 
         } catch (error) {
         console.error("Error occurred:", error.message);
@@ -48,10 +47,10 @@ gasPriceRouter.post("/",async(req,res)=>{
 
 
 
-})
+}
 
 
 
 module.exports={
-    gasPriceRouter 
+    getGasPrice 
 }

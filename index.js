@@ -5,6 +5,7 @@ const { balanceRouter } = require('./Routes/balance.route')
 const { sendTransactionRouter } = require('./Routes/sendTransaction.route')
 const { gasPriceRouter } = require('./Routes/gasPrice.route')
 const app =express()
+require('dotenv').config();
 
 app.use(express.json())
 app.use(cors())

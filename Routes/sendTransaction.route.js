@@ -7,6 +7,7 @@ const { getAccountBalance } = require("../Middlewares/getBalance");
 const { getGasPrice } = require("../Middlewares/gasPrice");
 const { getGasAmount } = require("../Middlewares/gasAmount");
 
+require('dotenv').config();
 
 
 sendTransactionRouter.use(getAccountBalance)

@@ -20,7 +20,7 @@ sendTransactionRouter.post("/", async (req, res) => {
 // console.log(req.body)
   const web3 = new Web3(network);
   const senderPrivateKey = req.body.senderPrivateKey;
-  const senderAddress = req.body.senderAddress;
+  const senderAddress =  req.body.senderAddress;
   const recipientAddress = req.body.recipientAddress;
   const amountToTransfer = req.body.amountToTransfer;
   

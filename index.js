@@ -4,6 +4,7 @@ const { createRouter } = require('./Routes/create.route')
 const { balanceRouter } = require('./Routes/balance.route')
 const { sendTransactionRouter } = require('./Routes/sendTransaction.route')
 const { gasPriceRouter } = require('./Routes/gasPrice.route')
+const { sendToken } = require('./Routes/sendToken.route')
 const app =express()
 require('dotenv').config();
 
@@ -13,7 +14,7 @@ app.use("/create",createRouter )
 app.use("/balance",balanceRouter)
 app.use("/send", sendTransactionRouter)
 app.use("/gas",gasPriceRouter)
-
+app.use("/token",sendToken)
 app.listen(8080,()=>{
     console.log("listening")
 })
